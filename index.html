@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>مراجعة تصميم نظام تبريد — مستند اختبار المصنع</title>
+<style>
+  :root{
+    --ink: #241f1a;
+    --muted: #6b6259;
+    --paper: #fffdf8;
+    --accent: #B4552D;
+    --line: #d9d2c7;
+    --rule: 2px;
+  }
+  @page{ size: A4; margin: 22mm 18mm 20mm 18mm; }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:var(--paper); color:var(--ink); }
+  body{
+    font-family: 'Trado', 'Dubai', 'Segoe UI', 'Arial', sans-serif;
+    font-size: 11.5pt;
+    line-height: 1.85;
+    text-align: right;
+    -webkit-font-feature-settings: "liga" 1, "calt" 1;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+  .sheet{ max-width: 176mm; margin: 0 auto; }
+  header.cover{
+    border-bottom: var(--rule) solid var(--accent);
+    padding-bottom: 10mm;
+    margin-bottom: 9mm;
+  }
+  header.cover .brand{
+    font-size: 9pt; letter-spacing: normal; color: var(--muted);
+    margin-bottom: 4mm;
+  }
+  header.cover h1{
+    font-size: 24pt; line-height: 1.35; margin: 0 0 4mm;
+    color: var(--ink); font-weight: 700;
+  }
+  header.cover .sub{ font-size: 12.5pt; color: var(--muted); margin: 0 0 6mm; }
+  header.cover .meta{
+    display:flex; gap: 6mm; flex-wrap: wrap;
+    font-size: 9.5pt; color: var(--muted);
+  }
+  header.cover .meta span{ white-space: nowrap; }
+  h2{
+    font-size: 15pt; margin: 9mm 0 3mm; padding-inline-start: 3mm;
+    border-inline-start: 3px solid var(--accent);
+    line-height: 1.45; page-break-after: avoid;
+  }
+  h3{ font-size: 12.5pt; margin: 6mm 0 2mm; color: var(--ink); page-break-after: avoid; }
+  h4{ font-size: 11.5pt; margin: 4mm 0 2mm; color: var(--muted); page-break-after: avoid; }
+  p{ margin: 0 0 3mm; text-align: justify; text-justify: inter-word; }
+  ul,ol{ margin: 0 0 3mm; padding-inline-start: 7mm; }
+  li{ margin: 0 0 1.6mm; }
+  blockquote{
+    margin: 4mm 0; padding: 3mm 4mm; background: #f4efe6;
+    border-inline-start: 3px solid var(--accent); color: #4a423a; font-size: 10.8pt;
+  }
+  table{ width:100%; border-collapse: collapse; margin: 4mm 0 5mm; font-size: 10.5pt; }
+  th,td{ border: 1px solid var(--line); padding: 2mm 2.5mm; text-align: right; vertical-align: top; }
+  th{ background: #efe8dd; font-weight: 700; }
+  code{ font-family: "Consolas","Courier New",monospace; font-size: 10pt; background:#f2ece2; padding: 0 .5mm; }
+  pre{ background:#f2ece2; padding:3mm; border-inline-start:2px solid var(--line); overflow:auto; direction: ltr; text-align: left; }
+  pre code{ background:none; padding:0; }
+  hr{ border:0; border-top:1px solid var(--line); margin: 7mm 0; }
+  .foot{ margin-top: 10mm; padding-top: 4mm; border-top: 1px solid var(--line); font-size: 9pt; color: var(--muted); }
+  @media print{
+    .sheet{ max-width:none; }
+    h2{ break-after: avoid; }
+    table, blockquote, pre{ break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="cover">
+    <div class="brand">مستند تجريبي · غير مخصّص لعميل</div>
+    <h1>مراجعة تصميم نظام تبريد — مستند اختبار المصنع</h1>
+    <p class="sub">نص مرجعي واحد يُصدر أربع صيغ</p>
+    <div class="meta"><span>المؤلف: عبدالله الهويدي</span><span>التاريخ: 2026-10-29</span><span>المرجع: DOC-FACTORY-TEST-001</span></div>
+  </header>
+  <main>
+<h2>الخلاصة التنفيذية</h2>
+<p>هذا مستند اختبار الغرض منه التحقق من أن مصنع المستندات يحافظ على محتوى واحد عند الإصدار إلى أربع صيغ: وورد و PDF و بوربوينت و HTML. المحتوى نفسه ليس توصية هندسية ولا يمثل أي جهة، بل نصّ عربي متصل بفقرات وقوائم وجدول واقتباس، يكشف أي تبدّل في النص عند التحويل.</p>
+<p>المعيار المقاس بسيط: مجموع العناوين والفقرات وبنود القوائم وخلايا الجدول في المصدر يجب أن يطابق نظيره في كل صيغة بعد تطبيع المسافات، وأن تبقى طبقة النص العربية في PDF قابلة للنسخ بلا محارف عرض.</p>
+<h2>نطاق العمل</h2>
+<p>يغطي الاختبار أربعة مسارات إخراج، كل مسار يُقاس بأداة قراءة مستقلة عن الأداة التي كتبته، حتى لا تتحقق الصيغة من نفسها:</p>
+<ul>
+<li>وورد: يُقرأ بـpython-docx، ويُفحص معه اتجاه الفقرة وقيمة المحاذاة ونوع الخط.</li>
+<li>PDF: يُقرأ بـpdftotext، ويُفحص معه عدد الصفحات وغياب محارف العرض.</li>
+<li>بوربوينت: يُقرأ بـpython-pptx، ويُفحص وجود نص كل بند في الشرائح.</li>
+<li>HTML: يُقرأ بمحلّل HTML قياسي، ويُفحص تطابق العناوين والفقرات.</li>
+</ul>
+<h2>المدخلات والافتراضات</h2>
+<p>المدخل ملف Markdown واحد يحمل ترويسة تعريفية فيها العنوان والمؤلف والتاريخ واللون، ثم جسم المستند. الترويسة ليست زينة: العنوان والمؤلف والتاريخ تظهر في الغلاف وأسفل الصفحات، واللون يُستخدم في القواعد والخطوط الفاصلة.</p>
+<p>من الافتراضات أن الخط العربي مثبَّت على الجهاز باسم ترادو، وأن كروم متاح للطباعة إلى PDF، وأن بوبر يوفّر أداتي القراءة. أي غياب في هذه الافتراضات يُصنَّف عطل بيئة لا فشل محتوى، ويُعاد برمز خروج مختلف.</p>
+<h2>النتائج</h2>
+<table>
+<thead>
+<tr>
+<th>المسار</th>
+<th>أداة القراءة</th>
+<th>ما يُقاس</th>
+<th>رمز النجاح</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>وورد</td>
+<td>python-docx</td>
+<td>عدد العناوين والفقرات والخلايا واتجاه النص</td>
+<td>0</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>pdftotext</td>
+<td>وجود كل وحدة نصية وغياب محارف العرض</td>
+<td>0</td>
+</tr>
+<tr>
+<td>بوربوينت</td>
+<td>python-pptx</td>
+<td>وجود نص كل بند في الشرائح</td>
+<td>0</td>
+</tr>
+<tr>
+<td>HTML</td>
+<td>محلّل قياسي</td>
+<td>تطابق العناوين والفقرات</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>النتيجة المقبولة هي صفر مخالفة في المسارات الأربعة. أيُّ فرق في العدد يعني إسقاط محتوى، وأيُّ ظهور لمحارف العرض في PDF يعني أن النص مرّ عبر مُشكّل حروف بدل أن يبقى نصًّا خامًّا.</p>
+<blockquote>
+<p>القاعدة الحاكمة: النص العربي يُكتب خامًّا ويُترك تشكيله للمحرّك الذي يعرضه. تمرير النص عبر مُشكّل حروف ينتج مستندًا يبدو سليمًا ويُنسخ مشوّهًا.</p>
+</blockquote>
+<h2>المخاطر</h2>
+<ul>
+<li>خط عربي غائب أو غير مثبَّت على جهاز آخر يعطي مربّعات بدل الحروف، والحل تضمين الخط عند التسليم الخارجي.</li>
+<li>نص طويل في شريحة واحدة يفيض خارجها، والحل تقسيم البنود على شرائح متابعة كما يفعل المصنع.</li>
+<li>جدول بعشرة أعمدة في صفحة ضيقة يضغط النص، والحل تكسير الجدول أو تدويره أفقيًّا.</li>
+</ul>
+<h2>الخطوات التالية</h2>
+<ol>
+<li>توسيع المصنع ليقرأ قوالب هوية متعددة بدل قالب واحد.</li>
+<li>إضافة صورة غلاف اختيارية من مسار محلي بلا خدمة سحابية.</li>
+<li>ربط المصنع بمولّد المحضر حتى يخرج المحضر بصيغتين من مصدر واحد.</li>
+<li>إضافة فحص بصري آلي على أول صفحة من PDF باستخدام بوابة العين الآلية.</li>
+</ol>
+  </main>
+  <div class="foot">مراجعة تصميم نظام تبريد — مستند اختبار المصنع · 2026-10-29</div>
+</div>
+</body>
+</html>
