@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alhuwaidias-arch.github.io/studio-pages-test/sitemap.xml
